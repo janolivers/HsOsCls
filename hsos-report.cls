@@ -174,7 +174,7 @@
 
 		{
 			\centering
-			\includegraphics[width=7cm]{graphics/titlepage-logo} \\
+			\includegraphics[width=7cm]{titlepage-logo} \\
 			\vspace*{50pt}
 
 			{\fontsize{22}{22}\selectfont
@@ -199,7 +199,7 @@
 			\if@useTwoExanimer
 					\textbf{Erstprüfer:}  	& \firstexaminer 		\vspace*{10pt} 	\\
 					\textbf{Zweitprüfer:} 	& \secoundexaminer 		\vspace*{10pt} 	\\
-			\else			
+			\else
 					\textbf{Prüfer}         & \firstexaminer 		\vspace*{10pt}  \\
 			\fi
 					\textbf{Abgabedatum:} 	& \releasedate
@@ -283,7 +283,7 @@
 % regular terms:
 
 % (Version 1.04+) The following will make regular terms appear
-% in sans-serif when used with \gls etc but won't affect the 
+% in sans-serif when used with \gls etc but won't affect the
 % abbreviations:
 
 %\renewcommand*{\glsxtrregularfont}[1]{\textsf{#1}}
@@ -403,7 +403,7 @@
 
 	%\fancyhead[L]{\leftmark \vspace*{12pt}}
     \fancyhead[L]{\leftmark \\ \releasedate}
-	\fancyhead[R]{\includegraphics[height=1cm]{graphics/logo}}
+	\fancyhead[R]{\includegraphics[height=1cm]{logo}}
 	\fancyhead[C]{\author}
 
 	\fancyfoot[L]{\title}% Custom footer
@@ -418,7 +418,7 @@
 
 \fancypagestyle{hsos-only-logo}{%
 	\fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=1cm]{graphics/logo}}
+    \fancyhead[R]{\includegraphics[height=1cm]{logo}}
 
     \renewcommand{\headrule}{} % delete headrule
     \renewcommand{\footrule}{} % delete footrule
@@ -426,7 +426,7 @@
 
 \fancypagestyle{hsos-logo-and-foot}{%
     \fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=1cm]{graphics/logo}}
+    \fancyhead[R]{\includegraphics[height=1cm]{logo}}
 
     \fancyfoot[L]{\title}% Custom footer
     \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
@@ -437,10 +437,10 @@
 
 \fancypagestyle{hsos-logo-and-foot-with-page}{%
 	\fancyhf{}% Clear header and footer
-	\fancyhead[R]{\includegraphics[height=1cm]{graphics/logo}}
-	
+	\fancyhead[R]{\includegraphics[height=1cm]{logo}}
+
 	\fancyfoot[C]{\thepage}% Custom footer
-	
+
 	\renewcommand{\headrule}{} % delete headrule
 	\renewcommand{\footrule}{} % delete footrule
 }
