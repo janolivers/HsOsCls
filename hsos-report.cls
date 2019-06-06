@@ -49,7 +49,7 @@
 %\RequirePackage{bytefield}
 \RequirePackage{xparse}
 \RequirePackage[toc,page]{appendix}
-%\RequirePackage[textsize=small]{todonotes}
+\RequirePackage[textsize=small]{todonotes}
 \RequirePackage{csquotes}
 
 % Layout
@@ -464,7 +464,7 @@
 	breaklines=true,
 	backgroundcolor=\color{HSOS-GREY-20},
 	tabsize=2,
-	basicstyle=\ttfamily,
+	%basicstyle=\ttfamily,
 }
 
 %\newcommand[1]{\lstinlinebox}{\colorbox{HSOS-GREY-20}{\lstinline{#1}}}
