@@ -49,7 +49,6 @@
 %\RequirePackage{bytefield}
 \RequirePackage{xparse}
 \RequirePackage[toc,page]{appendix}
-\RequirePackage[textsize=small]{todonotes}
 \RequirePackage{csquotes}
 
 % Layout
