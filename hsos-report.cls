@@ -10,15 +10,17 @@
 % if clause for options
 \newif\if@thesis
 \newif\if@printable
+\newif\if@onehalfspacing
 
 % set default values
 \@thesisfalse
 \@printablefalse
+\@onehalfspacingfalse
 
 %Declare Options
-\DeclareOption{twoExanimer}{\@useTwoExanimertrue}
 \DeclareOption{print}{\@printabletrue}
 \DeclareOption{thesis}{\@thesistrue}
+\DeclareOption{onehalfspacing}{\@onehalfspacingtrue}
 \ProcessOptions\relax
 
 %----------------------------------------------------------------------------------------
@@ -32,7 +34,8 @@
 % Fonts
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
-\usepackage[onehalfspacing]{setspace}
+\usepackage{setspace}
+
 
 % Misc
 \RequirePackage{xcolor}
@@ -97,6 +100,12 @@
 %----------------------------------------------------------------------------------------
 %	 MISC CONFIGURATIONS
 %----------------------------------------------------------------------------------------
+\if@onehalfspacing
+	\onehalfspacing
+\else
+	\singlespacing
+\fi
+
 \renewcommand{\title}[1]{\renewcommand{\title}{#1}}
 \renewcommand{\author}[1]{\renewcommand{\author}{#1}}
 %\renewcommand{\abstract}[1]{\renewcommand{\abstract}{#1}}
@@ -229,7 +238,7 @@
 		top=2cm,
 		bottom=2cm,
 		left=3cm,
-		right=1.5cm,
+		right=2cm,
 		includehead,
 		includefoot
 		%showframe % zum Anzeigen des Layouts
