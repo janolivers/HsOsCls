@@ -1,0 +1,61 @@
+% !TeX spellcheck = de_DE
+\documentclass[print,thesis]{hsos-report}
+
+% Control Debug informations like todo notes
+\newif\ifdebug
+\debugfalse
+
+% setup additional options, packages and tikz libs
+\input{misc/additional-options}
+
+% setup the variables
+\title{Das ist ein langer Titel für eine Masterarbeit}
+\author{Max Mustermann}
+\email{max.mustermann@hs-osnabrueck.de}
+\studentnumber{000000}
+\kindofdoc{Masterarbeit}
+\major{Informatik - Verteilte und Mobile Anwendungen}
+\startdate{26.06.2019}
+\releasedate{26.11.2019}
+\firstexaminer{Herr Prof. Dr.-Ing. Erich Mayer}
+\secoundexaminer{Herr Prof. Dr.-Ing. Peter Müller}
+%\secoundexaminer{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+	
+	%% PREAMBLE
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\input{misc/preamble}
+
+	%% CHAPTER
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\input{chapter/introduction}
+	
+	\input{chapter/analyse}
+	
+	\input{chapter/concept}
+	
+	\input{chapter/implementation}
+
+	\input{chapter/verification}
+	
+	\input{chapter/conclusion}
+	
+	%% POSTAMBLE
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\input{misc/postamble}
+	
+	%% APPENDIX
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\appendix
+	\pdfbookmark[part]{Anhang}{anhang}
+	\input{chapter/appendix}
+	
+	% Selbständigkeitserklärung
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\input{misc/affidavit}
+		
+\end{document}

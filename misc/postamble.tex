@@ -1,0 +1,60 @@
+% !TeX spellcheck = de_DE
+
+% clear page first
+\clearpage
+
+\iffalse
+	% Redefine the plain page style
+	\fancypagestyle{plain}{%
+		\pagestyle{hsos-logo-and-foot-with-page}
+	}
+\fi
+
+% Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pdfbookmark[chapter]{Verzeichnisse}{verzeichnisse}
+
+\iftrue
+	\listoffigures
+	\bookmarksetupnext{level=section}
+	\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+	\vfill
+	\clearpage	
+\fi
+
+\iftrue
+	\listoftables
+	\bookmarksetupnext{level=section}
+	\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+	\vfill
+	\clearpage
+\fi
+
+\iftrue
+	\lstlistoflistings
+	\bookmarksetupnext{level=section}
+	\addcontentsline{toc}{chapter}{Listings}
+	\vfill
+	\clearpage
+\fi
+
+% Literaturverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bookmarksetupnext{level=chapter}
+\printbibliography[heading=bibintoc]
+
+\iftrue
+	% Glossar
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\bookmarksetupnext{level=chapter}
+	\printunsrtglossary[type=main,style=altlist]
+	\vfill
+	\pagebreak
+	\clearpage
+\fi
+
+\ifdebug
+	% fix problems with pdf bookmarks after this
+	\bookmarksetupnext{level=chapter}
+	\listoftodos
+\fi

@@ -1,0 +1,39 @@
+% !TeX spellcheck = de_DE
+
+% Dummy changing for avoid Warnings
+\pagenumbering{Alph}
+
+% create title page 
+\selectlanguage{german}
+\maketitle
+\clearpage
+
+% Redefine the plain page style
+\fancypagestyle{plain}{%
+	\pagestyle{hsos-logo-and-foot-with-page}
+}
+
+% Use roman as page Numbering
+\pagenumbering{Roman}
+
+% later here the abstract
+\input{misc/abstract}
+\clearpage
+
+\printunsrtglossary[type=abbreviations]
+\vfill
+\pagebreak
+\clearpage
+
+\pdfbookmark[chapter]{Inhaltsverzeichnis}{inhaltsverzeichnis}
+\tableofcontents
+\clearpage
+\newpage
+
+% Redefine the plain page style
+\fancypagestyle{plain}{%
+	\pagestyle{hsos-logo-and-foot}
+}
+
+% Change back to Arabic numerals
+\pagenumbering{arabic}

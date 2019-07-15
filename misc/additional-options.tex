@@ -1,0 +1,29 @@
+%%%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%%%
+\ifdebug
+	\usepackage[textsize=small]{todonotes}
+\else
+	\usepackage[disable]{todonotes}
+\fi
+
+
+\usepackage{pdflscape}
+\usepackage[percent]{overpic}
+
+%%%%%%%%%%%%%%%
+% Options
+%%%%%%%%%%%%%%%
+%add references
+\addbibresource{bibliography/example.bib}
+
+%add glossaries
+\GlsXtrLoadResources[src={glossaries/example}]
+
+%setup graphicpath
+\graphicspath{{./graphics/}}
+
+% show only below subsections in toc
+\setcounter{tocdepth}{1}
+
+%\flushbottom
