@@ -9,18 +9,19 @@
 
 % if clause for options
 \newif\if@printLayout
-\newif\if@useTwoExanimer
+\newif\if@thesis
 \newif\if@printable
 
 % set default values
 \@printLayoutfalse
-\@useTwoExanimerfalse
+\@thesisfalse
 \@printablefalse
 
 %Declare Options
 \DeclareOption{printLayout}{\@printLayouttrue}
 \DeclareOption{twoExanimer}{\@useTwoExanimertrue}
 \DeclareOption{print}{\@printabletrue}
+\DeclareOption{thesis}{\@thesistrue}
 \ProcessOptions\relax
 
 %----------------------------------------------------------------------------------------
@@ -105,10 +106,12 @@
 
 %% Symbole
 \newcommand{\kindofdoc}[1]{\renewcommand{\kindofdoc}{#1}}
+\newcommand{\major}[1]{\renewcommand{\major}{#1}}
 \newcommand{\shorttitle}[1]{\renewcommand{\shorttitle}{#1}}
 \newcommand{\email}[1]{\renewcommand{\email}{#1}}
 \newcommand{\studentnumber}[1]{\renewcommand{\studentnumber}{#1}}
 \newcommand{\releasedate}[1]{\renewcommand{\releasedate}{#1}}
+\newcommand{\startdate}[1]{\renewcommand{\startdate}{#1}}
 \newcommand{\firstexaminer}[1]{\renewcommand{\firstexaminer}{#1}}
 \newcommand{\secoundexaminer}[1]{\renewcommand{\secoundexaminer}{#1}}
 
@@ -176,10 +179,14 @@
 			\includegraphics[width=7cm]{titlepage-logo} \\
 			\vspace*{50pt}
 
-			{\fontsize{22}{22}\selectfont
+			{\fontsize{24}{24}\selectfont
 				Fakultät \\
                 Ingenieurwissenschaften und Informatik}\\[0.2\baselineskip]
-    		\vspace*{80pt}
+    		\vspace*{6pt}
+    		
+    		{\fontsize{14}{14}\selectfont
+    			\major}\\[0.2\baselineskip]
+    		\vspace*{48pt}
 
 			{\fontsize{24}{24}\selectfont
 				\kindofdoc}\\[0.2\baselineskip]
@@ -189,19 +196,20 @@
 
 			{\fontsize{16}{16}\selectfont\bfseries
 			 \title}\\[0.2\baselineskip]
-            \vspace*{130pt}
+            \vspace*{110pt}
 
             {\fontsize{14}{14}\selectfont
 				\begin{tabular}{ r l }
-					\textbf{Autor:} 		& \author \ (\studentnumber) 			\\
-											& \email 				\vspace*{10pt} 	\\
-			\if@useTwoExanimer
-					\textbf{Erstprüfer:}  	& \firstexaminer 		\vspace*{10pt} 	\\
-					\textbf{Zweitprüfer:} 	& \secoundexaminer 		\vspace*{10pt} 	\\
+					\textbf{Bearbeiter:}		& \author			\\
+					\textbf{Matrikelnummer:} 	& \studentnumber 		\vspace*{10pt} 	\\
+			\if@thesis
+					\textbf{Erstprüfer:}  		& \firstexaminer 	\\ %	\vspace*{10pt} 	\\
+					\textbf{Zweitprüfer:} 		& \secoundexaminer 		\vspace*{10pt} 	\\
 			\else
-					\textbf{Prüfer}         & \firstexaminer 		\vspace*{10pt}  \\
+					\textbf{Prüfer}         	& \firstexaminer 		\vspace*{10pt}  \\
 			\fi
-					\textbf{Abgabedatum:} 	& \releasedate
+					\textbf{Ausgabedatum:} 		& \startdate        \\ % 	\vspace*{10pt}  \\
+					\textbf{Abgabedatum:}   	& \releasedate 
 				\end{tabular} \\
             }
 		}
