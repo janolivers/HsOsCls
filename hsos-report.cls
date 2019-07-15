@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{hsos}[2019/03/19 Hochschule Osnabrueck Latex class]
-\LoadClass[a4paper, 12pt]{report}
+\ProvidesClass{hsos-report}[2019/03/19 Hochschule Osnabrueck Latex class]
+\LoadClass[a4paper, 11pt]{report}
 %\LoadClass[a4paper, 12pt]{scrreprt}
 
 %----------------------------------------------------------------------------------------
@@ -34,8 +34,10 @@
 % Fonts
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
-\usepackage{setspace}
 
+\if@onehalfspacing
+\usepackage[onehalfspacing]{setspace}
+\fi
 
 % Misc
 \RequirePackage{xcolor}
@@ -100,20 +102,14 @@
 %----------------------------------------------------------------------------------------
 %	 MISC CONFIGURATIONS
 %----------------------------------------------------------------------------------------
-\if@onehalfspacing
-	\onehalfspacing
-\else
-	\singlespacing
-\fi
-
-\renewcommand{\title}[1]{\renewcommand{\title}{#1}}
 \renewcommand{\author}[1]{\renewcommand{\author}{#1}}
 %\renewcommand{\abstract}[1]{\renewcommand{\abstract}{#1}}
 
 %% Symbole
+\newcommand{\shorttitle}[1]{\renewcommand{\shorttitle}{#1}}
+\newcommand{\longtitle}[1]{\renewcommand{\longtitle}{#1}}
 \newcommand{\kindofdoc}[1]{\renewcommand{\kindofdoc}{#1}}
 \newcommand{\major}[1]{\renewcommand{\major}{#1}}
-\newcommand{\shorttitle}[1]{\renewcommand{\shorttitle}{#1}}
 \newcommand{\email}[1]{\renewcommand{\email}{#1}}
 \newcommand{\studentnumber}[1]{\renewcommand{\studentnumber}{#1}}
 \newcommand{\releasedate}[1]{\renewcommand{\releasedate}{#1}}
@@ -135,7 +131,9 @@
 \renewcommand{\footnoterule}{} %Deactivte line above footnotes
 
 % Configure Headheight
-\setlength{\headheight}{33pt}
+\setlength{\headheight}{28pt}
+\setlength{\headsep}{12pt}
+\setlength{\footskip}{24pt}
 
 % Table spaces
 \renewcommand{\arraystretch}{1.2}
@@ -183,16 +181,16 @@
 		{
 			\centering
 			\includegraphics[width=7cm]{titlepage-logo} \\
-			\vspace*{50pt}
+			\vspace*{60pt}
 
 			{\fontsize{24}{24}\selectfont
-				Fakultät \\
+				Fakultät \vspace*{6pt}\\
                 Ingenieurwissenschaften und Informatik}\\[0.2\baselineskip]
     		\vspace*{6pt}
     		
     		{\fontsize{14}{14}\selectfont
     			\major}\\[0.2\baselineskip]
-    		\vspace*{48pt}
+    		\vspace*{60pt}
 
 			{\fontsize{24}{24}\selectfont
 				\kindofdoc}\\[0.2\baselineskip]
@@ -200,9 +198,9 @@
 			    über das Thema}\\[0.2\baselineskip]
 			\vspace*{20pt}
 
-			{\fontsize{16}{16}\selectfont\bfseries
-			 \title}\\[0.2\baselineskip]
-            \vspace*{110pt}
+			{\doublespacing\fontsize{18}{16}\selectfont\bfseries
+			 \longtitle}\\[0.2\baselineskip]
+            \vspace*{130pt}
 
             {\fontsize{14}{14}\selectfont
 				\begin{tabular}{ r l }
@@ -235,10 +233,10 @@
 \if@printable
 	\RequirePackage[
 		layout=a4paper,
-		top=2cm,
-		bottom=2cm,
+		top=1cm,
+		bottom=1.5cm,
 		left=3cm,
-		right=2cm,
+		right=1.5cm,
 		includehead,
 		includefoot
 		%showframe % zum Anzeigen des Layouts
@@ -246,8 +244,8 @@
 \else
 	\RequirePackage[
 		layout=a4paper,
-		top=2cm,
-		bottom=2cm,
+		top=1cm,
+		bottom=1.5cm,
 		left=2.5cm,
 		right=2cm,
 		includehead,
@@ -419,7 +417,7 @@
 	\fancyhead[R]{\includegraphics[height=1cm]{logo}}
 	\fancyhead[C]{\author}
 
-	\fancyfoot[L]{\title}% Custom footer
+	\fancyfoot[L]{\shorttitle}% Custom footer
     \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
 
   	%\renewcommand{\headrule}{{\color{\rulecolour}\oldheadrule}}
@@ -441,7 +439,7 @@
     \fancyhf{}% Clear header and footer
     \fancyhead[R]{\includegraphics[height=1cm]{logo}}
 
-    \fancyfoot[L]{\title}% Custom footer
+    \fancyfoot[L]{\shorttitle}% Custom footer
     \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
 
     \renewcommand{\headrule}{} % delete headrule
