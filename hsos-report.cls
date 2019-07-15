@@ -8,17 +8,14 @@
 %----------------------------------------------------------------------------------------
 
 % if clause for options
-\newif\if@printLayout
 \newif\if@thesis
 \newif\if@printable
 
 % set default values
-\@printLayoutfalse
 \@thesisfalse
 \@printablefalse
 
 %Declare Options
-\DeclareOption{printLayout}{\@printLayouttrue}
 \DeclareOption{twoExanimer}{\@useTwoExanimertrue}
 \DeclareOption{print}{\@printabletrue}
 \DeclareOption{thesis}{\@thesistrue}
@@ -226,7 +223,7 @@
 %	 MARGINS AND LINKS
 %----------------------------------------------------------------------------------------
 
-\if@printLayout
+\if@printable
 	\RequirePackage[
 		layout=a4paper,
 		top=2cm,
@@ -243,7 +240,7 @@
 		top=2cm,
 		bottom=2cm,
 		left=2.5cm,
-		right=2.5cm,
+		right=2cm,
 		includehead,
 		includefoot
 		%showframe % zum Anzeigen des Layouts
