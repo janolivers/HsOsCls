@@ -187,7 +187,7 @@
 				Fakultät \vspace*{6pt}\\
                 Ingenieurwissenschaften und Informatik}\\[0.2\baselineskip]
     		\vspace*{6pt}
-    		
+
     		{\fontsize{14}{14}\selectfont
     			\major}\\[0.2\baselineskip]
     		\vspace*{60pt}
@@ -213,7 +213,7 @@
 					\textbf{Prüfer}         	& \firstexaminer 		\vspace*{10pt}  \\
 			\fi
 					\textbf{Ausgabedatum:} 		& \startdate        \\ % 	\vspace*{10pt}  \\
-					\textbf{Abgabedatum:}   	& \releasedate 
+					\textbf{Abgabedatum:}   	& \releasedate
 				\end{tabular} \\
             }
 		}
@@ -431,8 +431,10 @@
 	\fancyhf{}% Clear header and footer
     \fancyhead[R]{\includegraphics[height=1cm]{logo}}
 
-    \renewcommand{\headrule}{} % delete headrule
-    \renewcommand{\footrule}{} % delete footrule
+    %\renewcommand{\headrule}{} % delete headrule
+    %\renewcommand{\footrule}{} % delete footrule
+    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
+    \renewcommand{\footrulewidth}{0pt}% Line at the footer visible
 }
 
 \fancypagestyle{hsos-logo-and-foot}{%
@@ -442,7 +444,8 @@
     \fancyfoot[L]{\shorttitle}% Custom footer
     \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
 
-    \renewcommand{\headrule}{} % delete headrule
+    %\renewcommand{\headrule}{} % delete headrule
+    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
     \renewcommand{\footrulewidth}{1pt}% Line at the footer visible
 }
 
@@ -452,8 +455,10 @@
 
 	\fancyfoot[C]{\thepage}% Custom footer
 
-	\renewcommand{\headrule}{} % delete headrule
-	\renewcommand{\footrule}{} % delete footrule
+	%\renewcommand{\headrule}{} % delete headrule
+	%\renewcommand{\footrule}{} % delete footrule
+    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
+    \renewcommand{\footrulewidth}{0pt}% Line at the footer visible
 }
 
 % Redefine the plain page style
