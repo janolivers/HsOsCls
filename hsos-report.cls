@@ -37,6 +37,9 @@
 
 \if@onehalfspacing
 \usepackage[onehalfspacing]{setspace}
+\else
+\usepackage{setspace}
+\spacing{1.2}
 \fi
 
 % Misc
