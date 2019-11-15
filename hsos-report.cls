@@ -10,15 +10,18 @@
 % if clause for options
 \newif\if@thesis
 \newif\if@printable
+\newif\if@black
 \newif\if@onehalfspacing
 
 % set default values
 \@thesisfalse
 \@printablefalse
+\@blackfalse
 \@onehalfspacingfalse
 
 %Declare Options
 \DeclareOption{print}{\@printabletrue}
+\DeclareOption{black}{\@blacktrue}
 \DeclareOption{thesis}{\@thesistrue}
 \DeclareOption{onehalfspacing}{\@onehalfspacingtrue}
 \ProcessOptions\relax
@@ -139,7 +142,7 @@
 \setlength{\footskip}{24pt}
 
 % Table spaces
-\renewcommand{\arraystretch}{1.2}
+%\renewcommand{\arraystretch}{1.2}
 
 %% New Command to Print Memory Sections
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -252,13 +255,13 @@
 		left=2.5cm,
 		right=2cm,
 		includehead,
-		includefoot
+		includefoot%,
 		%showframe % zum Anzeigen des Layouts
 	]{geometry}
 \fi
 
 %For Printing disable color on links and urls
-\if@printable
+\if@black
 
 	\RequirePackage[
 		%ocgcolorlinks, % broke the url links
@@ -417,7 +420,7 @@
 
 	%\fancyhead[L]{\leftmark \vspace*{12pt}}
     \fancyhead[L]{\leftmark \\ \releasedate}
-	\fancyhead[R]{\includegraphics[height=1cm]{logo}}
+	\fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
 	\fancyhead[C]{\author}
 
 	\fancyfoot[L]{\shorttitle}% Custom footer
@@ -432,7 +435,7 @@
 
 \fancypagestyle{hsos-only-logo}{%
 	\fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=1cm]{logo}}
+    \fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
 
     %\renewcommand{\headrule}{} % delete headrule
     %\renewcommand{\footrule}{} % delete footrule
@@ -442,7 +445,7 @@
 
 \fancypagestyle{hsos-logo-and-foot}{%
     \fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=1cm]{logo}}
+    \fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
 
     \fancyfoot[L]{\shorttitle}% Custom footer
     \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
@@ -454,8 +457,18 @@
 
 \fancypagestyle{hsos-logo-and-foot-with-page}{%
 	\fancyhf{}% Clear header and footer
-	\fancyhead[R]{\includegraphics[height=1cm]{logo}}
+	\fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
 
+	\fancyfoot[C]{\thepage}% Custom footer
+
+	%\renewcommand{\headrule}{} % delete headrule
+	%\renewcommand{\footrule}{} % delete footrule
+    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
+    \renewcommand{\footrulewidth}{0pt}% Line at the footer visible
+}
+
+\fancypagestyle{only-foot-with-page}{%
+	\fancyhf{}% Clear header and footer
 	\fancyfoot[C]{\thepage}% Custom footer
 
 	%\renewcommand{\headrule}{} % delete headrule
@@ -472,7 +485,7 @@
 \pagestyle{hsos-layout}
 
 % Set Pagenumber to one
-\setcounter{page}{0}
+%\setcounter{page}{0}
 
 %----------------------------------------------------------------------------------------
 %	 Diffrent setups
