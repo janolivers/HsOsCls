@@ -204,7 +204,7 @@
 			    über das Thema}\\[0.2\baselineskip]
 			\vspace*{20pt}
 
-			{\doublespacing\fontsize{18}{16}\selectfont\bfseries
+			{\fontsize{18}{16}\selectfont\bfseries
 			 \longtitle}\\[0.2\baselineskip]
             \vspace*{130pt}
 
@@ -252,8 +252,8 @@
 		layout=a4paper,
 		top=1cm,
 		bottom=1.5cm,
-		left=2.5cm,
-		right=2cm,
+		left=3cm,
+		right=2.5cm,
 		includehead,
 		includefoot%,
 		%showframe % zum Anzeigen des Layouts
@@ -420,7 +420,7 @@
 
 	%\fancyhead[L]{\leftmark \vspace*{12pt}}
     \fancyhead[L]{\leftmark \\ \releasedate}
-	\fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
+	\fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
 	\fancyhead[C]{\author}
 
 	\fancyfoot[L]{\shorttitle}% Custom footer
@@ -435,7 +435,7 @@
 
 \fancypagestyle{hsos-only-logo}{%
 	\fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
+    \fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
 
     %\renewcommand{\headrule}{} % delete headrule
     %\renewcommand{\footrule}{} % delete footrule
@@ -445,7 +445,7 @@
 
 \fancypagestyle{hsos-logo-and-foot}{%
     \fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
+    \fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
 
     \fancyfoot[L]{\shorttitle}% Custom footer
     \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
@@ -457,7 +457,7 @@
 
 \fancypagestyle{hsos-logo-and-foot-with-page}{%
 	\fancyhf{}% Clear header and footer
-	\fancyhead[R]{\includegraphics[height=1cm]{HS-OS-Logo-Kompakt-Schwarz}}
+	\fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
 
 	\fancyfoot[C]{\thepage}% Custom footer
 
