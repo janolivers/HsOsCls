@@ -252,7 +252,7 @@
 		layout=a4paper,
 		top=1cm,
 		bottom=1.5cm,
-		left=3cm,
+		left=2.5cm,
 		right=2.5cm,
 		includehead,
 		includefoot%,
