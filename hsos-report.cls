@@ -423,8 +423,11 @@
 	\fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
 	\fancyhead[C]{\author}
 
-	\fancyfoot[L]{\shorttitle}% Custom footer
-    \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
+	%\fancyfoot[L]{\shorttitle}% Custom footer
+    %\fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
+
+    \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{Seite \thepage\ von \pageref{LastPage}}{\shorttitle}}
+    \fancyfoot[L]{\ifthenelse{\isodd{\value{page}}}{\shorttitle}{Seite \thepage\ von \pageref{LastPage}}}
 
   	%\renewcommand{\headrule}{{\color{\rulecolour}\oldheadrule}}
   	%\renewcommand{\footrule}{{\color{\rulecolour}\oldfootrule}}
@@ -447,8 +450,11 @@
     \fancyhf{}% Clear header and footer
     \fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
 
-    \fancyfoot[L]{\shorttitle}% Custom footer
-    \fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
+    %\fancyfoot[L]{\shorttitle}% Custom footer
+    %\fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
+
+    \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{Seite \thepage\ von \pageref{LastPage}}{\shorttitle}}
+    \fancyfoot[L]{\ifthenelse{\isodd{\value{page}}}{\shorttitle}{Seite \thepage\ von \pageref{LastPage}}}
 
     %\renewcommand{\headrule}{} % delete headrule
     \renewcommand{\headrulewidth}{0pt}% Line at the header visible
