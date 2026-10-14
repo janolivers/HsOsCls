@@ -1,0 +1,33 @@
+name: Build example
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk biber default-jre-headless \
+            texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended \
+            texlive-bibtex-extra texlive-lang-german texlive-plain-generic \
+            texlive-luatex fonts-texgyre
+
+      - name: Build (pdfLaTeX)
+        run: latexmk -interaction=nonstopmode example.tex
+
+      - name: Build (LuaLaTeX)
+        run: latexmk -lualatex -interaction=nonstopmode -jobname=example-lua example.tex
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: example-pdf
+          path: |
+            example.pdf
+            example-lua.pdf

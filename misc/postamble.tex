@@ -1,60 +1,47 @@
 % !TeX spellcheck = de_DE
 
-% clear page first
-\clearpage
-
-\iffalse
-	% Redefine the plain page style
-	\fancypagestyle{plain}{%
-		\pagestyle{hsos-logo-and-foot-with-page}
-	}
-\fi
-
-% Tables
+% Verzeichnisse
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Einträge im Inhaltsverzeichnis werden vor dem jeweiligen Verzeichnis gesetzt,
+% damit Seitenzahl und Link auf dessen erste Seite zeigen.
+\cleardoublepage
 \pdfbookmark[chapter]{Verzeichnisse}{verzeichnisse}
 
 \iftrue
+	\phantomsection
+	\addcontentsline{toc}{chapter}{\listfigurename}
+	\bookmarksetupnext{level=section}
 	\listoffigures
-	\bookmarksetupnext{level=section}
-	\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
-	\vfill
-	\clearpage	
-\fi
-
-\iftrue
-	\listoftables
-	\bookmarksetupnext{level=section}
-	\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
-	\vfill
 	\clearpage
 \fi
 
 \iftrue
-	\lstlistoflistings
+	\phantomsection
+	\addcontentsline{toc}{chapter}{\listtablename}
 	\bookmarksetupnext{level=section}
-	\addcontentsline{toc}{chapter}{Listings}
-	\vfill
+	\listoftables
+	\clearpage
+\fi
+
+\iftrue
+	\phantomsection
+	\addcontentsline{toc}{chapter}{\lstlistlistingname}
+	\bookmarksetupnext{level=section}
+	\lstlistoflistings
 	\clearpage
 \fi
 
 % Literaturverzeichnis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bookmarksetupnext{level=chapter}
 \printbibliography[heading=bibintoc]
 
 \iftrue
 	% Glossar
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\bookmarksetupnext{level=chapter}
 	\printunsrtglossary[type=main,style=altlist]
-	\vfill
-	\pagebreak
 	\clearpage
 \fi
 
 \ifdebug
-	% fix problems with pdf bookmarks after this
-	\bookmarksetupnext{level=chapter}
 	\listoftodos
 \fi

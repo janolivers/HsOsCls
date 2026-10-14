@@ -1,508 +1,384 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{hsos-report}[2019/03/19 Hochschule Osnabrueck Latex class]
-\LoadClass[a4paper, 11pt]{report}
-%\LoadClass[a4paper, 12pt]{scrreprt}
+%% hsos-report.cls
+%% LaTeX-Klasse für Haus-, Projekt- und Abschlussarbeiten an der
+%% Hochschule Osnabrück (inoffiziell).
+%%
+%% Toolchain: pdfLaTeX oder LuaLaTeX, Biber, bib2gls (siehe latexmkrc)
+\NeedsTeXFormat{LaTeX2e}[2020/10/01]
+\ProvidesClass{hsos-report}[2026/10/14 v2.0 Hochschule Osnabrueck report class]
 
 %----------------------------------------------------------------------------------------
-%	 DECLARE OPTIONS
+%	 OPTIONEN
 %----------------------------------------------------------------------------------------
+% thesis          Titelseite mit Erst- und Zweitprüfer:in (sonst nur ein:e Prüfer:in)
+% print           Ränder für Bindung (breiterer Innenrand)
+% twoside         doppelseitiger Satz (Kapitel beginnen rechts, Fußzeile spiegelt sich)
+% black           Links und Zitate schwarz statt in HSOS-Blau
+% onehalfspacing  1,5-facher Zeilenabstand (Standard: 1,2)
+% english         Dokumentsprache Englisch (Standard: Deutsch, neue Rechtschreibung)
+% 10pt/11pt/12pt  Schriftgröße (Standard: 11pt)
+% Alle übrigen Optionen werden an die Klasse report weitergereicht.
 
-% if clause for options
-\newif\if@thesis
-\newif\if@printable
-\newif\if@black
-\newif\if@onehalfspacing
+\newif\ifhsos@thesis
+\newif\ifhsos@print
+\newif\ifhsos@black
+\newif\ifhsos@onehalfspacing
+\newif\ifhsos@english
 
-% set default values
-\@thesisfalse
-\@printablefalse
-\@blackfalse
-\@onehalfspacingfalse
-
-%Declare Options
-\DeclareOption{print}{\@printabletrue}
-\DeclareOption{black}{\@blacktrue}
-\DeclareOption{thesis}{\@thesistrue}
-\DeclareOption{onehalfspacing}{\@onehalfspacingtrue}
+\DeclareOption{thesis}{\hsos@thesistrue}
+\DeclareOption{print}{\hsos@printtrue}
+\DeclareOption{black}{\hsos@blacktrue}
+\DeclareOption{onehalfspacing}{\hsos@onehalfspacingtrue}
+\DeclareOption{english}{\hsos@englishtrue}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 \ProcessOptions\relax
 
-%----------------------------------------------------------------------------------------
-%	 REQUIRED PACKAGES
-%----------------------------------------------------------------------------------------
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[english,german]{babel}
-% select as language german
-\selectlanguage{german}
+\LoadClass[a4paper,11pt]{report}
+\raggedbottom
 
-% Fonts
-\usepackage{mathptmx}
-\usepackage[T1]{fontenc}
-
-\if@onehalfspacing
-\usepackage[onehalfspacing]{setspace}
+%----------------------------------------------------------------------------------------
+%	 SPRACHE UND SCHRIFTEN
+%----------------------------------------------------------------------------------------
+% UTF-8 ist seit LaTeX 2018-04-01 Standard, inputenc wird nicht mehr benötigt.
+\RequirePackage{iftex}
+\ifhsos@english
+  \RequirePackage[ngerman,main=english]{babel}
 \else
-\usepackage{setspace}
-\spacing{1.2}
+  \RequirePackage[english,main=ngerman]{babel}
 \fi
 
-% Misc
+\ifPDFTeX
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage{newtxtext}
+  \RequirePackage{newtxmath}
+\else
+  % LuaLaTeX / XeLaTeX
+  \RequirePackage{newtxmath}
+  \RequirePackage{fontspec}
+  \setmainfont{texgyretermes}[
+    Extension=.otf,
+    UprightFont=*-regular, BoldFont=*-bold,
+    ItalicFont=*-italic,   BoldItalicFont=*-bolditalic]
+\fi
+\RequirePackage{microtype}
+
+\RequirePackage{setspace}
+\ifhsos@onehalfspacing
+  \onehalfspacing
+\else
+  \setstretch{1.2}
+\fi
+
+%----------------------------------------------------------------------------------------
+%	 PAKETE
+%----------------------------------------------------------------------------------------
 \RequirePackage{xcolor}
-\RequirePackage{tabularx}
 \RequirePackage{graphicx}
-\RequirePackage{subcaption}
-%\RequirePackage{vhistory}
-\RequirePackage{colortbl}
 \RequirePackage{array}
+\RequirePackage{tabularx}
+\RequirePackage{colortbl}
+\RequirePackage{booktabs}
+\RequirePackage{subcaption}
+\RequirePackage{float}
 \RequirePackage{tikz}
 \RequirePackage{listings}
-%\RequirePackage{bytefield}
-\RequirePackage{xparse}
 \RequirePackage[toc,page]{appendix}
 \RequirePackage{csquotes}
 
-% Layout
 \RequirePackage{titlesec}
 \RequirePackage{fancyhdr}
 \RequirePackage{lastpage}
-\RequirePackage{float}
-%\RequirePackage[bottom]{footmisc}
-%\RequirePackage{etoolbox}
 
-% Bibliography
 \RequirePackage[
   backend=biber,
-  %style=alphabetic,
-  %citestyle=alphabetic,
-  %style=lni,
-  %citestyle=lni,
   style=ieee,
-  citestyle=ieee,
-  bibencoding=utf8,
-  backref=true]{biblatex}
+  backref=true
+]{biblatex}
 
 %----------------------------------------------------------------------------------------
-%    Tikz Library
+%	 FARBEN
 %----------------------------------------------------------------------------------------
-
-%----------------------------------------------------------------------------------------
-%	 COLOURS
-%----------------------------------------------------------------------------------------
-% Blue
 \definecolor{HSOS-BLUE-100}{RGB}{0,100,180}
 \definecolor{HSOS-BLUE-80}{RGB}{72,136,187}
 \definecolor{HSOS-BLUE-40}{RGB}{108,148,180}
 \definecolor{HSOS-BLUE-20}{RGB}{144,164,180}
 
-% Light Blue
 \definecolor{HSOS-LIGHT-BLUE-100}{RGB}{45,175,230}
 \definecolor{HSOS-LIGHT-BLUE-80}{RGB}{106,193,230}
 \definecolor{HSOS-LIGHT-BLUE-40}{RGB}{156,208,230}
 \definecolor{HSOS-LIGHT-BLUE-20}{RGB}{193,219,230}
 
-% Gray
 \definecolor{HSOS-GREY-100}{RGB}{87,87,87}
 \definecolor{HSOS-GREY-80}{RGB}{128,128,128}
 \definecolor{HSOS-GREY-40}{RGB}{179,179,179}
 \definecolor{HSOS-GREY-20}{RGB}{230,230,230}
 
 %----------------------------------------------------------------------------------------
-%	 MISC CONFIGURATIONS
+%	 METADATEN
 %----------------------------------------------------------------------------------------
-\renewcommand{\author}[1]{\renewcommand{\author}{#1}}
-%\renewcommand{\abstract}[1]{\renewcommand{\abstract}{#1}}
+% \hsos@defmeta{name}{Standardwert} definiert \name{...} zum Setzen und
+% \thename zum Ausgeben. Fehlende Angaben führen so nicht mehr zu Fehlern.
+\newcommand\hsos@defmeta[2]{%
+  \expandafter\def\csname hsos@#1\endcsname{#2}%
+  \expandafter\newcommand\csname #1\endcsname[1]{%
+    \expandafter\gdef\csname hsos@#1\endcsname{##1}}%
+  \expandafter\newcommand\csname the#1\endcsname{\csname hsos@#1\endcsname}%
+}
 
-%% Symbole
-\newcommand{\shorttitle}[1]{\renewcommand{\shorttitle}{#1}}
-\newcommand{\longtitle}[1]{\renewcommand{\longtitle}{#1}}
-\newcommand{\kindofdoc}[1]{\renewcommand{\kindofdoc}{#1}}
-\newcommand{\major}[1]{\renewcommand{\major}{#1}}
-\newcommand{\email}[1]{\renewcommand{\email}{#1}}
-\newcommand{\studentnumber}[1]{\renewcommand{\studentnumber}{#1}}
-\newcommand{\releasedate}[1]{\renewcommand{\releasedate}{#1}}
-\newcommand{\startdate}[1]{\renewcommand{\startdate}{#1}}
-\newcommand{\firstexaminer}[1]{\renewcommand{\firstexaminer}{#1}}
-\newcommand{\secoundexaminer}[1]{\renewcommand{\secoundexaminer}{#1}}
+\hsos@defmeta{longtitle}{Titel der Arbeit}
+\hsos@defmeta{shorttitle}{Kurztitel}
+\hsos@defmeta{kindofdoc}{Bachelorarbeit}
+\hsos@defmeta{faculty}{Fakultät\\[6pt]Ingenieurwissenschaften und Informatik}
+\hsos@defmeta{major}{}
+\hsos@defmeta{email}{}
+\hsos@defmeta{studentnumber}{}
+\hsos@defmeta{startdate}{}
+\hsos@defmeta{releasedate}{\today}
+\hsos@defmeta{firstexaminer}{}
+\hsos@defmeta{secondexaminer}{}
+\hsos@defmeta{headerlogo}{HS-OS-Logo-Kompakt-Schwarz}
+\hsos@defmeta{titlelogo}{titlepage-logo}
 
-% Reverse margin par for the todos
+% \author bleibt der Standard-Befehl von LaTeX, \theauthor gibt den Namen aus.
+\newcommand\theauthor{\@author}
+% Kompatibilität zu Version 1 (Tippfehler im Befehlsnamen)
+\newcommand\secoundexaminer{\secondexaminer}
+
+% Bezeichnungen auf der Titelseite (sprachabhängig)
+\newcommand\hsos@lbl@about{über das Thema}
+\newcommand\hsos@lbl@author{Bearbeiter:in}
+\newcommand\hsos@lbl@studentnumber{Matrikelnummer}
+\newcommand\hsos@lbl@examiner{Prüfer:in}
+\newcommand\hsos@lbl@firstexaminer{Erstprüfer:in}
+\newcommand\hsos@lbl@secondexaminer{Zweitprüfer:in}
+\newcommand\hsos@lbl@startdate{Ausgabedatum}
+\newcommand\hsos@lbl@releasedate{Abgabedatum}
+\newcommand\hsos@lbl@page{Seite}
+\newcommand\hsos@lbl@of{von}
+\ifhsos@english
+  \renewcommand\hsos@lbl@about{on the topic}
+  \renewcommand\hsos@lbl@author{Author}
+  \renewcommand\hsos@lbl@studentnumber{Student ID}
+  \renewcommand\hsos@lbl@examiner{Examiner}
+  \renewcommand\hsos@lbl@firstexaminer{First examiner}
+  \renewcommand\hsos@lbl@secondexaminer{Second examiner}
+  \renewcommand\hsos@lbl@startdate{Date of issue}
+  \renewcommand\hsos@lbl@releasedate{Submission date}
+  \renewcommand\hsos@lbl@page{Page}
+  \renewcommand\hsos@lbl@of{of}
+\fi
+
+%----------------------------------------------------------------------------------------
+%	 HILFSBEFEHLE
+%----------------------------------------------------------------------------------------
+% Logo einbinden (sucht auch in \graphicspath); fehlt die Datei, erscheint
+% ein Platzhalter mit Warnung statt eines Abbruchs.
+\newif\ifhsos@found
+\newcommand\hsos@logo[2]{%
+  \hsos@foundfalse
+  \ifdefined\Ginput@path
+    \edef\hsos@paths{\unexpanded{{}}\unexpanded\expandafter{\Ginput@path}}%
+  \else
+    \def\hsos@paths{{}}%
+  \fi
+  \expandafter\@tfor\expandafter\hsos@dir\expandafter:\expandafter=\hsos@paths\do{%
+    \@for\hsos@ext:=,.pdf,.png,.jpg,.jpeg\do{%
+      \IfFileExists{\hsos@dir#2\hsos@ext}{\global\hsos@foundtrue}{}}}%
+  \ifhsos@found
+    \includegraphics[#1]{#2}%
+  \else
+    \ClassWarning{hsos-report}{Logo '#2' nicht gefunden}%
+    \fbox{\footnotesize Logo fehlt: \detokenize{#2}}%
+  \fi
+}
+
+% Link mit URL in der Fußnote
+\newcommand\fnurl[2]{\href{#1}{#2}\footnote{\url{#1}}}
+
+% Unterschriftszeile für Erklärungen
+\newcommand\hsossignature{%
+  \par\vspace{2cm}\noindent
+  \parbox[t]{6cm}{\rule{5cm}{0.5pt}\\Ort, Datum}\hspace{1cm}%
+  \parbox[t]{8cm}{\rule{7cm}{0.5pt}\\Unterschrift}\par
+}
+
+% Seitenstil für \chapter-Seiten setzen: \hsosplainstyle{hsos-logo-and-foot}
+\newcommand\hsosplainstyle[1]{%
+  \expandafter\let\expandafter\ps@plain\csname ps@#1\endcsname}
+
+%----------------------------------------------------------------------------------------
+%	 ALLGEMEINES LAYOUT
+%----------------------------------------------------------------------------------------
+% Absätze durch Abstand statt Einzug trennen
+\RequirePackage[parfill]{parskip}
 \reversemarginpar
 \setlength{\marginparwidth}{2.5cm}
+\renewcommand{\footnoterule}{}
 
-% Disable intent
-\setlength{\parindent}{0pt}
+\titleformat{\chapter}{\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 
-% Footnote configuration
-\newcommand\fnurl[2]{% add new command to insert refernzes in the footnote
-    \href{#1}{#2}\footnote{\url{#1}}%
+\lstset{
+  numbers=left,
+  breaklines=true,
+  backgroundcolor=\color{HSOS-GREY-20},
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  keepspaces=true,
+  tabsize=2,
 }
-\renewcommand{\footnoterule}{} %Deactivte line above footnotes
 
-% Configure Headheight
+%----------------------------------------------------------------------------------------
+%	 TITELSEITE
+%----------------------------------------------------------------------------------------
+\renewcommand{\maketitle}{%
+  \begin{titlepage}
+    \centering
+    \hsos@logo{width=7cm}{\hsos@titlelogo}\par
+    \vspace*{60pt}
+    {\fontsize{24}{28}\selectfont \hsos@faculty\par}
+    \vspace*{10pt}
+    {\fontsize{14}{16}\selectfont \hsos@major\par}
+    \vspace*{60pt}
+    {\fontsize{24}{28}\selectfont \hsos@kindofdoc\par}
+    {\fontsize{14}{16}\selectfont \hsos@lbl@about\par}
+    \vspace*{20pt}
+    {\fontsize{18}{22}\selectfont\bfseries \hsos@longtitle\par}
+    \vfill
+    {\fontsize{14}{16}\selectfont
+      \begin{tabular}{rl}
+        \textbf{\hsos@lbl@author:}        & \@author \\
+        \textbf{\hsos@lbl@studentnumber:} & \hsos@studentnumber \\[10pt]
+        \ifhsos@thesis
+        \textbf{\hsos@lbl@firstexaminer:}  & \hsos@firstexaminer \\
+        \textbf{\hsos@lbl@secondexaminer:} & \hsos@secondexaminer \\[10pt]
+        \else
+        \textbf{\hsos@lbl@examiner:}       & \hsos@firstexaminer \\[10pt]
+        \fi
+        \textbf{\hsos@lbl@startdate:}      & \hsos@startdate \\
+        \textbf{\hsos@lbl@releasedate:}    & \hsos@releasedate
+      \end{tabular}\par}
+    \vspace*{40pt}
+  \end{titlepage}%
+}
+
+%----------------------------------------------------------------------------------------
+%	 SEITENRÄNDER
+%----------------------------------------------------------------------------------------
+\ifhsos@print
+  \RequirePackage[a4paper,top=1cm,bottom=1.5cm,inner=3cm,outer=1.5cm,
+    includehead,includefoot]{geometry}
+\else
+  \RequirePackage[a4paper,top=1cm,bottom=1.5cm,inner=2.5cm,outer=2.5cm,
+    includehead,includefoot]{geometry}
+\fi
 \setlength{\headheight}{28pt}
 \setlength{\headsep}{12pt}
 \setlength{\footskip}{24pt}
 
-% Table spaces
-%\renewcommand{\arraystretch}{1.2}
-
-%% New Command to Print Memory Sections
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% facilitates the creation of memory maps. Start address at the bottom, end address at the top.
-% syntax: \memsection{end address}{start address}{height in lines}{text in box}
-%\newcommand{\memsection}[4]{
-%	\bytefieldsetup{bitheight=#3\baselineskip}    % define the height of the memsection
-%	\bitbox[]{10}{
-%		\texttt{#1}     % print end address
-%		\\ \vspace{#3\baselineskip} \vspace{-2\baselineskip} \vspace{-#3pt} % do some spacing
-%		\texttt{#2} % print start address
-%	}
-%	\bitbox{16}{#4} % print box with caption
-%}
-
-%%%%%% Example
-% \begin{bytefield}{24}
-% 	\memsection{ffff ffff}{0040 0000}{15}{-- free --}\\
-% 	\begin{rightwordgroup}{internal memory}
-% 		\memsection{003f ffff}{002f c000}{4}{Special Function Registers}\\
-% 		\memsection{002f bfff}{0007 0000}{3}{-- reseved --}\\
-% 		\memsection{0006 ffff}{0000 0000}{8}{Internal Flash}
-% 	\end{rightwordgroup}\\
-% \end{bytefield}
-
-% Glossary and Acronym entry
-%\DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m } {
-%  \newglossaryentry{gls-#3}{name={#5},text={#5\glsadd{#3}},
-%    description={#6},#1
-%  }
-%  \makeglossaries
-%  \newacronym[see={[Glossar:]{gls-#3}},#2]{#3}{#4}{#5\glsadd{gls-#3}}
-%}
-%Syntax: \newdualentry[glossary options][acronym options]{label}{abbrv}{long}{description}
 %----------------------------------------------------------------------------------------
-%	 TITLE PAGE
+%	 KOPF- UND FUSSZEILEN
 %----------------------------------------------------------------------------------------
-\renewcommand{\maketitle}{
-	\begin{titlepage}
+\newcommand\hsos@pageof{\hsos@lbl@page\ \thepage\ \hsos@lbl@of\ \pageref*{LastPage}}
+\newcommand\hsos@headlogo{\hsos@logo{height=.8cm}{\hsos@headerlogo}}
 
-		{
-			\centering
-			\includegraphics[width=7cm]{titlepage-logo} \\
-			\vspace*{60pt}
-
-			{\fontsize{24}{24}\selectfont
-				Fakultät \vspace*{6pt}\\
-                Ingenieurwissenschaften und Informatik}\\[0.2\baselineskip]
-    		\vspace*{6pt}
-
-    		{\fontsize{14}{14}\selectfont
-    			\major}\\[0.2\baselineskip]
-    		\vspace*{60pt}
-
-			{\fontsize{24}{24}\selectfont
-				\kindofdoc}\\[0.2\baselineskip]
-            {\fontsize{14}{14}\selectfont
-			    über das Thema}\\[0.2\baselineskip]
-			\vspace*{20pt}
-
-			{\fontsize{18}{16}\selectfont\bfseries
-			 \longtitle}\\[0.2\baselineskip]
-            \vspace*{130pt}
-
-            {\fontsize{14}{14}\selectfont
-				\begin{tabular}{ r l }
-					\textbf{Bearbeiter:}		& \author			\\
-					\textbf{Matrikelnummer:} 	& \studentnumber 		\vspace*{10pt} 	\\
-			\if@thesis
-					\textbf{Erstprüfer:}  		& \firstexaminer 	\\ %	\vspace*{10pt} 	\\
-					\textbf{Zweitprüfer:} 		& \secoundexaminer 		\vspace*{10pt} 	\\
-			\else
-					\textbf{Prüfer}         	& \firstexaminer 		\vspace*{10pt}  \\
-			\fi
-					\textbf{Ausgabedatum:} 		& \startdate        \\ % 	\vspace*{10pt}  \\
-					\textbf{Abgabedatum:}   	& \releasedate
-				\end{tabular} \\
-            }
-		}
-
-		\vfill
-
-	\end{titlepage}
-
-}%
-
-
-
-%----------------------------------------------------------------------------------------
-%	 MARGINS AND LINKS
-%----------------------------------------------------------------------------------------
-
-\if@printable
-	\RequirePackage[
-		layout=a4paper,
-		top=1cm,
-		bottom=1.5cm,
-		left=3cm,
-		right=1.5cm,
-		includehead,
-		includefoot
-		%showframe % zum Anzeigen des Layouts
-	]{geometry}
+% Seitenzahl und Logo stehen außen (bei twoside gespiegelt).
+\if@twoside
+  \def\hsos@out{RO,LE}\def\hsos@in{LO,RE}
 \else
-	\RequirePackage[
-		layout=a4paper,
-		top=1cm,
-		bottom=1.5cm,
-		left=2.5cm,
-		right=2.5cm,
-		includehead,
-		includefoot%,
-		%showframe % zum Anzeigen des Layouts
-	]{geometry}
+  \def\hsos@out{R}\def\hsos@in{L}
 \fi
+\newcommand\hsos@headout{\expandafter\fancyhead\expandafter[\hsos@out]}
+\newcommand\hsos@headin {\expandafter\fancyhead\expandafter[\hsos@in]}
+\newcommand\hsos@footout{\expandafter\fancyfoot\expandafter[\hsos@out]}
+\newcommand\hsos@footin {\expandafter\fancyfoot\expandafter[\hsos@in]}
 
-%For Printing disable color on links and urls
-\if@black
-
-	\RequirePackage[
-		%ocgcolorlinks, % broke the url links
-		colorlinks=true,
-		linkcolor=black,
-		urlcolor=black,
-		citecolor=black,
-		pdfencoding=auto,
-		%bookmarksopen,
-		bookmarksdepth=3
-	]{hyperref}
-
-\else
-
-	\RequirePackage[
-		%ocgcolorlinks, % broke the url links
-		colorlinks=true,
-		linkcolor=HSOS-BLUE-100,
-		urlcolor=HSOS-BLUE-100,
-		citecolor=HSOS-BLUE-100,
-		pdfencoding=auto,
-		%bookmarksopen,
-		bookmarksdepth=3
-	]{hyperref}
-
-\fi
-
-\RequirePackage[numbered]{bookmark}
-%\RequirePackage[acronyms,toc]{glossaries}
-
-%----------------------------------------------------------------------------------------
-%     Glossary Packages
-%----------------------------------------------------------------------------------------
-\RequirePackage[record,abbreviations,toc,nopostdot=false]{glossaries-extra}
-
-% regular terms:
-
-% (Version 1.04+) The following will make regular terms appear
-% in sans-serif when used with \gls etc but won't affect the
-% abbreviations:
-
-%\renewcommand*{\glsxtrregularfont}[1]{\textsf{#1}}
-
-% or limit to just the "general" category:
-%\renewcommand*{\glsxtrregularfont}[1]{%
-% \glsifcategory{\glslabel}{general}{\textsf{#1}}{#1}}
-
-% or limit to a particular attribute:
-
-%\glssetcategoryattribute{general}{font}{sf}
-%\glssetcategoryattribute{acronym}{font}{sf}
-
-%\renewcommand*{\glsxtrregularfont}[1]{%
-% \glsifattribute{\glslabel}{font}{sf}{\textsf{#1}}{#1}}
-
-% or use the attribute to store the font control sequence name:
-
-%\glssetcategoryattribute{general}{font}{textsf}
-%\glssetcategoryattribute{acronym}{font}{emph}
-%
-%\renewcommand*{\glsxtrregularfont}[1]{%
-%  \glshasattribute{\glslabel}{font}%
-%  {\csuse{\glsgetattribute{\glslabel}{font}}{#1}}%
-%  {#1}%
-%}
-
-% The following will make the first letter of the name upper case
-% in the glossary for the general entries:
-\glssetcategoryattribute{general}{glossname}{firstuc}
-
-% The following will make the first letter of the description upper case
-% in the glossary for the general entries:
-\glssetcategoryattribute{general}{glossdesc}{firstuc}
-
-% (version 1.04+) The following will make the description
-% appear in italic in the glossary for general entries:
-
-%\glssetcategoryattribute{general}{glossdescfont}{emph}
-
-% (version 1.04+) The following will make the name
-% appear in italic in the glossary for general entries:
-
-%\glssetcategoryattribute{general}{glossnamefont}{emph}
-
-% acronyms:
-
-% The following redefinition will add the provided text to the end of the
-% description in the glossary.
-
-\renewcommand*{\glsxtrpostdescacronym}{%
- \space(\textsc{Akronym:} \glsentrylong{\glscurrententrylabel})%
+\newcommand\hsos@foot{%
+  \hsos@footout{\hsos@pageof}%
+  \hsos@footin{\hsos@shorttitle}%
 }
 
-% The following will make the first letter of the name upper case
-% in the glossary for the acronym entries:
-\glssetcategoryattribute{acronym}{glossname}{firstuc}
-
-% The following will make the first letter of the description upper case
-% in the glossary for the acronym entries:
-\glssetcategoryattribute{acronym}{glossdesc}{firstuc}
-
-% Enable tagging of initials. The second argument is the name of
-% the command you want to use to tag initial letters. The
-% command will be defined robustly and will only be activated
-% in the glossary for the categories listed in the first
-% argument.
-% If the specified tagging command (\itag here) is used
-% anywhere else it will just do its argument.
-\GlsXtrEnableInitialTagging{acronym,abbreviation}{\itag}
-
-% The following redefinition will add the provided text to the end of the
-% description in the glossary.
-
-%\renewcommand*{\glsxtrpostdescabbreviation}{%
-% \space (abbreviation)%
-%}
-
-% The following will set the description in title case
-% in the glossary for the abbreviations:
-\glssetcategoryattribute{abbreviation}{glossdesc}{title}
-
-% The following will convert the abbreviations to all capitals
-% in the glossary:
-\glssetcategoryattribute{abbreviation}{glossname}{uc}
-
-% Use \textsc in the abbreviations:
-\setabbreviationstyle{long-short-sc}
-\setabbreviationstyle[acronym]{long-short}
-
-% Some other attributes you might want to try:
-
-% Use 's (apostrophe s) for the plural suffix
-% (only affects the short plural not the long plural)
-%\glssetcategoryattribute{abbreviation}{aposplural}{true}
-
-% Suppress the default suffix for the short plural.
-% (Don't use with the above for the same category.)
-%\glssetcategoryattribute{abbreviation}{noshortplural}{true}
-
-%----------------------------------------------------------------------------------------
-%	 change Title behaviour
-%----------------------------------------------------------------------------------------
-\titleformat{\chapter}{\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
-\titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
-
-%----------------------------------------------------------------------------------------
-%	 HEAD and FOOT Lines
-%----------------------------------------------------------------------------------------
-%\newcommand{\rulecolour}{HSOS-LIGHT-BLUE-100}
-\let\oldheadrule\headrule
-\let\oldfootrule\footrule
-
-% Layout
 \fancypagestyle{hsos-layout}{%
-	\fancyhf{}% Clear header and footer
-
-	%\fancyhead[L]{\leftmark \vspace*{12pt}}
-    \fancyhead[L]{\leftmark \\ \releasedate}
-	\fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
-	\fancyhead[C]{\author}
-
-	%\fancyfoot[L]{\shorttitle}% Custom footer
-    %\fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
-
-    \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{Seite \thepage\ von \pageref{LastPage}}{\shorttitle}}
-    \fancyfoot[L]{\ifthenelse{\isodd{\value{page}}}{\shorttitle}{Seite \thepage\ von \pageref{LastPage}}}
-
-  	%\renewcommand{\headrule}{{\color{\rulecolour}\oldheadrule}}
-  	%\renewcommand{\footrule}{{\color{\rulecolour}\oldfootrule}}
-
-	\renewcommand{\headrulewidth}{1pt}% Line at the header visible
-	\renewcommand{\footrulewidth}{1pt}% Line at the footer visible
+  \fancyhf{}%
+  \hsos@headin{\leftmark\\\hsos@releasedate}%
+  \fancyhead[C]{\@author}%
+  \hsos@headout{\hsos@headlogo}%
+  \hsos@foot
+  \renewcommand{\headrulewidth}{1pt}%
+  \renewcommand{\footrulewidth}{1pt}%
 }
 
 \fancypagestyle{hsos-only-logo}{%
-	\fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
-
-    %\renewcommand{\headrule}{} % delete headrule
-    %\renewcommand{\footrule}{} % delete footrule
-    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
-    \renewcommand{\footrulewidth}{0pt}% Line at the footer visible
+  \fancyhf{}%
+  \hsos@headout{\hsos@headlogo}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
 
 \fancypagestyle{hsos-logo-and-foot}{%
-    \fancyhf{}% Clear header and footer
-    \fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
-
-    %\fancyfoot[L]{\shorttitle}% Custom footer
-    %\fancyfoot[R]{Seite \thepage\ von \pageref{LastPage}}% Custom footer
-
-    \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{Seite \thepage\ von \pageref{LastPage}}{\shorttitle}}
-    \fancyfoot[L]{\ifthenelse{\isodd{\value{page}}}{\shorttitle}{Seite \thepage\ von \pageref{LastPage}}}
-
-    %\renewcommand{\headrule}{} % delete headrule
-    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
-    \renewcommand{\footrulewidth}{1pt}% Line at the footer visible
+  \fancyhf{}%
+  \hsos@headout{\hsos@headlogo}%
+  \hsos@foot
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{1pt}%
 }
 
 \fancypagestyle{hsos-logo-and-foot-with-page}{%
-	\fancyhf{}% Clear header and footer
-	\fancyhead[R]{\includegraphics[height=.8cm]{HS-OS-Logo-Kompakt-Schwarz}}
-
-	\fancyfoot[C]{\thepage}% Custom footer
-
-	%\renewcommand{\headrule}{} % delete headrule
-	%\renewcommand{\footrule}{} % delete footrule
-    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
-    \renewcommand{\footrulewidth}{0pt}% Line at the footer visible
+  \fancyhf{}%
+  \hsos@headout{\hsos@headlogo}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
 
 \fancypagestyle{only-foot-with-page}{%
-	\fancyhf{}% Clear header and footer
-	\fancyfoot[C]{\thepage}% Custom footer
-
-	%\renewcommand{\headrule}{} % delete headrule
-	%\renewcommand{\footrule}{} % delete footrule
-    \renewcommand{\headrulewidth}{0pt}% Line at the header visible
-    \renewcommand{\footrulewidth}{0pt}% Line at the footer visible
+  \fancyhf{}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
 
-% Redefine the plain page style
-\fancypagestyle{plain}{%
-    \pagestyle{hsos-logo-and-foot}
-}
-
+\hsosplainstyle{hsos-logo-and-foot}
 \pagestyle{hsos-layout}
 
-% Set Pagenumber to one
-%\setcounter{page}{0}
+%----------------------------------------------------------------------------------------
+%	 HYPERREF (möglichst spät laden)
+%----------------------------------------------------------------------------------------
+\RequirePackage[pdfencoding=auto,bookmarksdepth=3]{hyperref}
+\ifhsos@black
+  \hypersetup{colorlinks=true,allcolors=black}
+\else
+  \hypersetup{colorlinks=true,linkcolor=HSOS-BLUE-100,urlcolor=HSOS-BLUE-100,
+    citecolor=HSOS-BLUE-100}
+\fi
+\RequirePackage[numbered]{bookmark}
 
-%----------------------------------------------------------------------------------------
-%	 Diffrent setups
-%----------------------------------------------------------------------------------------
-% setup listings
-\lstset{
-	numbers=left,
-	breaklines=true,
-	backgroundcolor=\color{HSOS-GREY-20},
-	tabsize=2,
-	%basicstyle=\ttfamily,
+\AtBeginDocument{%
+  \hypersetup{
+    pdftitle={\hsos@longtitle},
+    pdfauthor={\@author},
+    pdfsubject={\hsos@kindofdoc},
+  }%
 }
 
-%\newcommand[1]{\lstinlinebox}{\colorbox{HSOS-GREY-20}{\lstinline{#1}}}
+%----------------------------------------------------------------------------------------
+%	 GLOSSAR UND ABKÜRZUNGEN (bib2gls)
+%----------------------------------------------------------------------------------------
+\RequirePackage[record,abbreviations,toc,nopostdot=false]{glossaries-extra}
+
+\glssetcategoryattribute{general}{glossname}{firstuc}
+\glssetcategoryattribute{general}{glossdesc}{firstuc}
+
+\renewcommand*{\glsxtrpostdescacronym}{%
+  \space(\textsc{Akronym:} \glsentrylong{\glscurrententrylabel})}
+\glssetcategoryattribute{acronym}{glossname}{firstuc}
+\glssetcategoryattribute{acronym}{glossdesc}{firstuc}
+
+% \itag{X} markiert Anfangsbuchstaben im Abkürzungsverzeichnis
+\GlsXtrEnableInitialTagging{acronym,abbreviation}{\itag}
+
+\glssetcategoryattribute{abbreviation}{glossdesc}{title}
+\glssetcategoryattribute{abbreviation}{glossname}{uc}
+\setabbreviationstyle{long-short-sc}
+\setabbreviationstyle[acronym]{long-short}
+
+\endinput
