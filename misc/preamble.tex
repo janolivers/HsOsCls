@@ -1,39 +1,24 @@
 % !TeX spellcheck = de_DE
 
-% Dummy changing for avoid Warnings
-\pagenumbering{Alph}
-
-% create title page 
-\selectlanguage{german}
+% Titelseite ohne Seitenanker, damit hyperref keine doppelten Seitennamen meldet
+\hypersetup{pageanchor=false}
 \maketitle
-\clearpage
+\hypersetup{pageanchor=true}
 
-% Redefine the plain page style
-\fancypagestyle{plain}{%
-	\pagestyle{hsos-logo-and-foot-with-page}
-}
-
-% Use roman as page Numbering
+% Vorspann: römische Seitenzahlen, Kapitelseiten nur mit Logo und Seitenzahl
+\hsosplainstyle{hsos-logo-and-foot-with-page}
 \pagenumbering{Roman}
 
-% later here the abstract
 \input{misc/abstract}
 \clearpage
 
 \printunsrtglossary[type=abbreviations]
-\vfill
-\pagebreak
 \clearpage
 
-\pdfbookmark[chapter]{Inhaltsverzeichnis}{inhaltsverzeichnis}
+\pdfbookmark[chapter]{\contentsname}{inhaltsverzeichnis}
 \tableofcontents
 \clearpage
-\newpage
 
-% Redefine the plain page style
-\fancypagestyle{plain}{%
-	\pagestyle{hsos-logo-and-foot}
-}
-
-% Change back to Arabic numerals
+% Hauptteil: arabische Seitenzahlen, Kapitelseiten mit Logo und Fußzeile
+\hsosplainstyle{hsos-logo-and-foot}
 \pagenumbering{arabic}
